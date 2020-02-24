@@ -1,30 +1,43 @@
 #include <iostream>
-
+#include <stdlib.h>
 using namespace std;
 
-int lin_Search(int [], int, int);
-int lin_Search(int arr[], int k_y, int iN)
-{
-if( iN ==0) return -1;
-else if( k_y == arr[iN-1]) return iN;
-else
-return lin_Search(arr,k_y,iN-1);
+void recMax_Min(int r[],int low_bou,int high_bou, int *max, int *min){
+    int mid_bou,max1,max2,min1,min2;
+if(high_bou-low_bou == 1){
+        if(r[low_bou] > r[high_bou]){
+*max = r[low_bou];
+*min = r[high_bou];
+}
+else{
+*max = r[high_bou];
+*min = r[low_bou];
+}
+}
+else if(low_bou == high_bou){
+*min = *max = r[low_bou];
+}
+else if(low_bou<high_bou){ mid_bou=(low_bou+high_bou)/2;
+recMax_Min(r,low_bou,mid_bou,&max1,&min1);
+recMax_Min(r,mid_bou+1,high_bou,&max2,&min2);
+if(max1 > max2)
+*max = max1; else
+*max = max2;
+if(min1 < min2)
+*min = min1; else
+*min = min2;
+}
 }
 
-int main(void)
-{
-    int arr[20],num,i_ey,pos_tio=0;
-cout<<"\nEnter the size of the array\n";
+int main( int argc, char **argv)
+{ int arr[500000],num,iMax=0,iMin=0;
+cout<<("\nEnter the size of the array\n");
 cin>>num;
 cout<<"\nEnter the elements of the array:\n";
 for(int a=0;a<num;a++){
-        cin>>arr[a];
-cout<<"\nenter the key element\n";
-cin>>i_ey;
-pos_tio=lin_Search(arr,i_ey,num);
-if(pos_tio==-1)
-cout<<"\nElement not found\n";
-else cout<<"\nElement found at position"<<pos_tio;
+        cin>>arr[a]; recMax_Min(arr,0, num-1, &iMax, &iMin);
+cout<<"\nMax Element = \n"<<iMax;
+cout<<"\nMin Element = \n"<<iMin;
 }
 return 0;
 }
